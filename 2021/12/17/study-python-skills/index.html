@@ -1,41 +1,94 @@
 <!doctype html>
-<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><meta><title>cplus_typecasting - 종민입니다.</title><link rel="manifest" href="/manifest.json"><meta name="application-name" content="종민입니다."><meta name="msapplication-TileImage" content="/img/favicon.svg"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="종민입니다."><meta name="apple-mobile-web-app-status-bar-style" content="default"><meta name="description" content="어제 알고리즘을 풀다가 실수할만한 부분을 발견해서 짧게 정리한다.int형과 double형을 혼용해서 쓰면서 발생한 문제인데, 예시를 통해 설명해보겠다.어렵지 않고 매우 간단한 내용이다."><meta property="og:type" content="blog"><meta property="og:title" content="cplus_typecasting"><meta property="og:url" content="http://example.com/2021/08/24/cplus-typecasting/"><meta property="og:site_name" content="종민입니다."><meta property="og:description" content="어제 알고리즘을 풀다가 실수할만한 부분을 발견해서 짧게 정리한다.int형과 double형을 혼용해서 쓰면서 발생한 문제인데, 예시를 통해 설명해보겠다.어렵지 않고 매우 간단한 내용이다."><meta property="og:locale" content="en_US"><meta property="og:image" content="http://example.com/img/og_image.png"><meta property="article:published_time" content="2021-08-24T14:05:51.000Z"><meta property="article:modified_time" content="2021-10-21T15:42:59.910Z"><meta property="article:author" content="jongmin Lee"><meta property="article:tag" content="짧"><meta property="article:tag" content="자료형"><meta property="article:tag" content="타입변환"><meta property="twitter:card" content="summary"><meta property="twitter:image" content="/img/og_image.png"><script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","mainEntityOfPage":{"@type":"WebPage","@id":"http://example.com/2021/08/24/cplus-typecasting/"},"headline":"cplus_typecasting","image":["http://example.com/img/og_image.png"],"datePublished":"2021-08-24T14:05:51.000Z","dateModified":"2021-10-21T15:42:59.910Z","author":{"@type":"Person","name":"jongmin Lee"},"publisher":{"@type":"Organization","name":"종민입니다.","logo":{"@type":"ImageObject","url":"http://example.com/img/llogo.PNG"}},"description":"어제 알고리즘을 풀다가 실수할만한 부분을 발견해서 짧게 정리한다.int형과 double형을 혼용해서 쓰면서 발생한 문제인데, 예시를 통해 설명해보겠다.어렵지 않고 매우 간단한 내용이다."}</script><link rel="canonical" href="http://example.com/2021/08/24/cplus-typecasting/"><link rel="icon" href="/img/favicon.svg"><link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.2/css/all.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/atom-one-light.css"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;600&amp;family=Source+Code+Pro"><link rel="stylesheet" href="/css/default.css"><style>body>.footer,body>.navbar,body>.section{opacity:0}</style><!--!--><!--!--><!--!--><!--!--><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/cookieconsent@3.1.1/build/cookieconsent.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/css/lightgallery.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/css/justifiedGallery.min.css"><!--!--><!--!--><script src="https://cdn.jsdelivr.net/npm/pace-js@1.0.2/pace.min.js"></script><!--!--><!--!--><meta name="generator" content="Hexo 5.4.0"></head><body class="is-2-column"><nav class="navbar navbar-main"><div class="container"><div class="navbar-brand justify-content-center"><a class="navbar-item navbar-logo" href="/"><img src="/img/llogo.PNG" alt="종민입니다." height="28"></a></div><div class="navbar-menu"><div class="navbar-start"><a class="navbar-item" href="/">Home</a><a class="navbar-item" href="/archives">Archives</a><a class="navbar-item" href="/categories">Categories</a><a class="navbar-item" href="/tags">Tags</a><a class="navbar-item" href="/about">About</a><a class="navbar-item" href="/blogmap">blogmap</a><a class="navbar-item" href="/algorithm">algorithm</a></div><div class="navbar-end"><a class="navbar-item" target="_blank" rel="noopener" title="Download on GitHub" href="https://github.com/ppoffice/hexo-theme-icarus"><i class="fab fa-github"></i></a><a class="navbar-item search" title="Search" href="javascript:;"><i class="fas fa-search"></i></a></div></div></div></nav><section class="section"><div class="container"><div class="columns"><div class="column order-2 column-main is-9-tablet is-9-desktop is-9-widescreen"><div class="card"><article class="card-content article" role="article"><div class="article-meta is-size-7 is-uppercase level is-mobile"><div class="level-left"><span class="level-item">Posted&nbsp;<time dateTime="2021-08-24T14:05:51.000Z" title="2021. 8. 24. 오후 2:05:51">2021-08-24</time></span><span class="level-item">Updated&nbsp;<time dateTime="2021-10-21T15:42:59.910Z" title="2021. 10. 21. 오후 3:42:59">2021-10-21</time></span><span class="level-item"><a class="link-muted" href="/categories/c/">c++</a></span><span class="level-item">3 minutes read (About 457 words)</span></div></div><h1 class="title is-3 is-size-4-mobile">cplus_typecasting</h1><div class="content"><p>어제 알고리즘을 풀다가 실수할만한 부분을 발견해서 짧게 정리한다.<br>int형과 double형을 혼용해서 쓰면서 발생한 문제인데, 예시를 통해 설명해보겠다.<br>어렵지 않고 매우 간단한 내용이다.  </p>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><meta><title>파이썬을 파이썬답게 - 종민입니다.</title><link rel="manifest" href="/manifest.json"><meta name="application-name" content="종민입니다."><meta name="msapplication-TileImage" content="/img/favicon.svg"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="종민입니다."><meta name="apple-mobile-web-app-status-bar-style" content="default"><meta name="description" content="시작부스트캠프 코딩테스트를 앞두고, 코딩테스트 공부를 했다.   내용자체가 어려울 것 같지는 않고, 구현이 까다로울 것 같아서 파이썬에 조금 더 익숙해지고자 했다.  [파이썬을 파이썬답게](https:&amp;#x2F;&amp;#x2F;programmers.co.kr&amp;#x2F;learn&amp;#x2F;courses&amp;#x2F;4008) 라는 좋은 온라인코스가 있어서 빠르게 진행해봤다.   파이썬에서 이용할 수 있는 팁들을"><meta property="og:type" content="blog"><meta property="og:title" content="파이썬을 파이썬답게"><meta property="og:url" content="http://example.com/2021/12/17/study-python-skills/"><meta property="og:site_name" content="종민입니다."><meta property="og:description" content="시작부스트캠프 코딩테스트를 앞두고, 코딩테스트 공부를 했다.   내용자체가 어려울 것 같지는 않고, 구현이 까다로울 것 같아서 파이썬에 조금 더 익숙해지고자 했다.  [파이썬을 파이썬답게](https:&amp;#x2F;&amp;#x2F;programmers.co.kr&amp;#x2F;learn&amp;#x2F;courses&amp;#x2F;4008) 라는 좋은 온라인코스가 있어서 빠르게 진행해봤다.   파이썬에서 이용할 수 있는 팁들을"><meta property="og:locale" content="en_US"><meta property="og:image" content="http://example.com/img/og_image.png"><meta property="article:published_time" content="2021-12-17T13:55:46.000Z"><meta property="article:modified_time" content="2021-12-17T13:57:48.005Z"><meta property="article:author" content="jongmin Lee"><meta property="article:tag" content="자료구조"><meta property="article:tag" content="알고리즘"><meta property="article:tag" content="파이썬"><meta property="twitter:card" content="summary"><meta property="twitter:image" content="/img/og_image.png"><script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","mainEntityOfPage":{"@type":"WebPage","@id":"http://example.com/2021/12/17/study-python-skills/"},"headline":"파이썬을 파이썬답게","image":["http://example.com/img/og_image.png"],"datePublished":"2021-12-17T13:55:46.000Z","dateModified":"2021-12-17T13:57:48.005Z","author":{"@type":"Person","name":"jongmin Lee"},"publisher":{"@type":"Organization","name":"종민입니다.","logo":{"@type":"ImageObject","url":"http://example.com/img/llogo.PNG"}},"description":"시작부스트캠프 코딩테스트를 앞두고, 코딩테스트 공부를 했다.   내용자체가 어려울 것 같지는 않고, 구현이 까다로울 것 같아서 파이썬에 조금 더 익숙해지고자 했다.  [파이썬을 파이썬답게](https:&#x2F;&#x2F;programmers.co.kr&#x2F;learn&#x2F;courses&#x2F;4008) 라는 좋은 온라인코스가 있어서 빠르게 진행해봤다.   파이썬에서 이용할 수 있는 팁들을"}</script><link rel="canonical" href="http://example.com/2021/12/17/study-python-skills/"><link rel="icon" href="/img/favicon.svg"><link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.2/css/all.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/atom-one-light.css"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;600&amp;family=Source+Code+Pro"><link rel="stylesheet" href="/css/default.css"><style>body>.footer,body>.navbar,body>.section{opacity:0}</style><!--!--><!--!--><!--!--><!--!--><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/cookieconsent@3.1.1/build/cookieconsent.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/css/lightgallery.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/css/justifiedGallery.min.css"><!--!--><!--!--><script src="https://cdn.jsdelivr.net/npm/pace-js@1.0.2/pace.min.js"></script><!--!--><!--!--><meta name="generator" content="Hexo 5.4.0"></head><body class="is-2-column"><nav class="navbar navbar-main"><div class="container"><div class="navbar-brand justify-content-center"><a class="navbar-item navbar-logo" href="/"><img src="/img/llogo.PNG" alt="종민입니다." height="28"></a></div><div class="navbar-menu"><div class="navbar-start"><a class="navbar-item" href="/">Home</a><a class="navbar-item" href="/archives">Archives</a><a class="navbar-item" href="/categories">Categories</a><a class="navbar-item" href="/tags">Tags</a><a class="navbar-item" href="/about">About</a><a class="navbar-item" href="/blogmap">blogmap</a><a class="navbar-item" href="/algorithm">algorithm</a></div><div class="navbar-end"><a class="navbar-item" target="_blank" rel="noopener" title="Download on GitHub" href="https://github.com/ppoffice/hexo-theme-icarus"><i class="fab fa-github"></i></a><a class="navbar-item search" title="Search" href="javascript:;"><i class="fas fa-search"></i></a></div></div></div></nav><section class="section"><div class="container"><div class="columns"><div class="column order-2 column-main is-9-tablet is-9-desktop is-9-widescreen"><div class="card"><article class="card-content article" role="article"><div class="article-meta is-size-7 is-uppercase level is-mobile"><div class="level-left"><span class="level-item">Posted&nbsp;<time dateTime="2021-12-17T13:55:46.000Z" title="2021. 12. 17. 오후 1:55:46">2021-12-17</time></span><span class="level-item">Updated&nbsp;<time dateTime="2021-12-17T13:57:48.005Z" title="2021. 12. 17. 오후 1:57:48">2021-12-17</time></span><span class="level-item"><a class="link-muted" href="/categories/%ED%8C%8C%EC%9D%B4%EC%8D%AC/">파이썬</a></span><span class="level-item">5 minutes read (About 808 words)</span></div></div><h1 class="title is-3 is-size-4-mobile">파이썬을 파이썬답게</h1><div class="content"><h1 id="시작"><a href="#시작" class="headerlink" title="시작"></a>시작</h1><pre><code>부스트캠프 코딩테스트를 앞두고, 코딩테스트 공부를 했다. 
+
+내용자체가 어려울 것 같지는 않고, 구현이 까다로울 것 같아서 파이썬에 조금 더 익숙해지고자 했다.
+
+[파이썬을 파이썬답게](https://programmers.co.kr/learn/courses/4008) 라는 좋은 온라인코스가 있어서 빠르게 진행해봤다.  
+파이썬에서 이용할 수 있는 팁들을 많이 얻을 수 있다.
+</code></pre>
 <span id="more"></span>
+<br/>
+
+<h1 id="내용"><a href="#내용" class="headerlink" title="내용"></a>내용</h1><pre><code>어렵진 않고 몰라서 못했던 내용임으로
+단편적인 내용들을 쩗게나열하는 형식으로 작성하겠다.
+
+1. int()함수는 base가 설정가능하다.
+    print(int(&#39;10&#39;, base = 5)) = 5
+    print(int(&#39;f&#39;, base = 16))
+    
+2. 알파벳은 lower(), upper()함수로 대문자 소문자 변환이 가능하다.
+
+3. map()함수의 사용법
+    map(function, iterable)과 같이 사용하며,
+    iterable한 객체를 돌면서 funtion을 실행한다. 
+    return type은 map object 이다. 
+    리스트로 사용하고 싶다면 list()를 통해서 리스트로 변경해줄 수 있다.
+
+4. zip()함수의 사용법
+    zip(iterable A, iterable B)와 같이 사용하며,
+    iterable한 객체를 돌면서 둘을 합친 반복자를 반환한다. 
+    return type은 zip object 이다. 
+    zip object또한 iterable한 객체이며, list()를 통해서 리스트로 변경해줄 수도 있다.
+    zip 함수에 서로 길이가 다른 리스트가 인자로 들어오는 경우에는 길이가 짧은 쪽 까지만 이터레이션이 이루어진다.
+
+5. *로 unpacking이 가능하다.
+
+6. for-else문이 가능하다.
+    for _ in X:
+        if 조건:
+            실행1
+            break
+    else:
+        실행2
+    break가 일어나지 않으면 else가 실행된다!
+
+7. iterable object to string object
+    s = &#39;&#39;.join(iterable)
+
+8. flatten 2D list to 1D list
+    1) answer = sum(my_list, [])
+        -&gt; list + list = list
+    2) list(itertools.chain(*my_list))
+        -&gt; unpacking을 이해해야한다!
+        -&gt; itertools.chain(iterable1, iterable2, iterable3) 간단히 말하면 리스트(lists/tuples/iterables) 를 연결하는 것이다.
+    3) [element for array in my_list for element in array]
+        -&gt; list comprehension
+    4) np.array(my_list).flatten().tolist()
+        -&gt; using numpy
+
+9. iterable 객체의 곱집합
+    list(itertools.product(iterable1, iterable2, iterable3))
+
+10. 파이썬의 list comprehension을 사용하면 한 줄 안에 for 문과 if 문을 한 번에 처리할 수 있다.
+    l = [x*x for x in range(10) if x%2 == 0]
+    -&gt;[0, 4, 16, 36, 64]
+
+11. 이분탐색이 구현되어 있다.
+    bisect를 import 하고 bisect()와 bisect_left()를 사용할 수 있다.
+    bisect(list,val)는 list에서 val이 추가될 때의 index를 return 한다.
+    bisect_left는 index하나 감소
+    (정렬된 상태에서 사용하자)
+
+12. from collection import deque
+    deque은 매우 장점이 많은 자료구조이다.
+    queue나 stack의 자료구조의 이해는 필요하지만 두자료구조를 구현할 때 deque을 써서 나쁠게 없다.
+    (특히나 코테에선 더욱 그러하다.)
+
+13. gcd 또한 구현되어있다. 
+    gcd = math.gcd(A, B)
+</code></pre>
+<br/>
 
 
-<br>  
-<br>
+<h1 id="정리"><a href="#정리" class="headerlink" title="정리"></a>정리</h1><pre><code>파이썬은 확실히 사용하기 편하고 보기 편한게 장점인 것 같다.
 
+새롭게 알게되는 내용이 있다면 추가해야겠다.
 
-
-
-<h2 id="예시"><a href="#예시" class="headerlink" title="예시"></a>예시</h2><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">void</span>)</span></span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">int</span> a =  <span class="number">10</span> - (<span class="number">3</span> / <span class="number">2</span>);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;%d&quot;</span>, a);</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>위 코드가 실행 되었을 때 출력되는 값은 9 이다.<br>3 / 2 = 1.5 에서 0.5를 버리기 대문에 10 - 1 = 9 로 계산이 된다.</p>
-<br>   
-
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">void</span>)</span></span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">int</span> a =  <span class="number">10</span> - (<span class="number">3.0</span> / <span class="number">2</span>);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;%d&quot;</span>, a);</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>그런데 위 코드가 실행 되었을 때 출력되는 값은 8 이다.<br>3.0 / 2 = 1.5로 계산이 되고, 10 - 1.5 = 8.5 로 계산이 된 후 0.5를 버리기 때문이다. </p>
-<br>   
-
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">void</span>)</span></span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">int</span> a =  <span class="number">10</span> - <span class="built_in"><span class="keyword">int</span></span>(<span class="number">3.0</span> / <span class="number">2</span>);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;%d&quot;</span>, a);</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>이 코드는 3.0 / 2 의 결과인 1.5를 int형으로 바꿔버린 것이다.<br>이렇게 바꾸면 다시 첫번째 결과와 동일하게 9를 출력한다.  </p>
-<br>  
-<br>
-
-
-<h2 id="내가-마주한-상황"><a href="#내가-마주한-상황" class="headerlink" title="내가 마주한 상황"></a>내가 마주한 상황</h2><p>타입 변환에 관련 된 내용이라 나도 어느정도 아는 내용이였지만,<br>내가 마주한 상황에서 생각하지를 못했다.  </p>
-<p>&lt;math.h&gt;에서 pow()함수를 이용해서 제곱을 계산하였는데, 이 때의 return 값이 double이였다.<br>그래서 위와 비슷한 예시에서 원하는 값을 얻지 못했다.  </p>
-<br>  
-<br>
-
-
-<h2 id="결론"><a href="#결론" class="headerlink" title="결론"></a>결론</h2><p>int 형과 double 형의 계산에서는<br>int 형이 더 큰 메모리 공간을 갖는 double형으로 변환되어 계산된다.<br>만약 그 후 대입 연산자가 있다면 대입연산자에 의해서 double 형이 int 형으로 자동형변환 되어 소수점을 버린다.</p>
-<br> 
-
-<p>원하는 값을 얻기위해서는 필요한 순간에 강제 타입변환을 하거나, 모든 변수를 double형으로 통일한후에 원하는 타입으로 변환할 수 있다. </p>
-</div><div class="article-licensing box"><div class="licensing-title"><p>cplus_typecasting</p><p><a href="http://example.com/2021/08/24/cplus-typecasting/">http://example.com/2021/08/24/cplus-typecasting/</a></p></div><div class="licensing-meta level is-mobile"><div class="level-left"><div class="level-item is-narrow"><div><h6>Author</h6><p>jongmin Lee</p></div></div><div class="level-item is-narrow"><div><h6>Posted on</h6><p>2021-08-24</p></div></div><div class="level-item is-narrow"><div><h6>Updated on</h6><p>2021-10-21</p></div></div><div class="level-item is-narrow"><div><h6>Licensed under</h6><p><a class="icons" rel="noopener" target="_blank" title="Creative Commons" href="https://creativecommons.org/"><i class="icon fab fa-creative-commons"></i></a><a class="icons" rel="noopener" target="_blank" title="Attribution" href="https://creativecommons.org/licenses/by/4.0/"><i class="icon fab fa-creative-commons-by"></i></a><a class="icons" rel="noopener" target="_blank" title="Noncommercial" href="https://creativecommons.org/licenses/by-nc/4.0/"><i class="icon fab fa-creative-commons-nc"></i></a></p></div></div></div></div></div><div class="article-tags is-size-7 mb-4"><span class="mr-2">#</span><a class="link-muted mr-2" rel="tag" href="/tags/%EC%A7%A7/">짧</a><a class="link-muted mr-2" rel="tag" href="/tags/%EC%9E%90%EB%A3%8C%ED%98%95/">자료형</a><a class="link-muted mr-2" rel="tag" href="/tags/%ED%83%80%EC%9E%85%EB%B3%80%ED%99%98/">타입변환</a></div><!--!--></article></div><!--!--><nav class="post-navigation mt-4 level is-mobile"><div class="level-start"><a class="article-nav-prev level level-item link-muted" href="/2021/08/29/ds-al-3/"><i class="level-item fas fa-chevron-left"></i><span class="level-item">자료구조 / 알고리즘 3 (그레프, 트리, 힙)</span></a></div><div class="level-end"><a class="article-nav-next level level-item link-muted" href="/2021/08/18/ds-al-2/"><span class="level-item">자료구조 / 알고리즘 2 (스택, 큐, 덱 )</span><i class="level-item fas fa-chevron-right"></i></a></div></nav><div class="card"><div class="card-content"><h3 class="title is-5">Comments</h3><div id="comment-container"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1.7.2/dist/gitalk.css"><script src="https://cdn.jsdelivr.net/npm/gitalk@1.7.2/dist/gitalk.min.js"></script><script>var gitalk = new Gitalk({
-            id: "5f2f79ec1e54491f0c1ae896327d97ab",
+혹시 누가보실진 모르겠지만,
+내용을 매우 얕게 정리해두었으니 몰랐던 내용이 있으시다면 조금 더 찾아보시는게 좋을것 같아요!
+</code></pre>
+</div><div class="article-licensing box"><div class="licensing-title"><p>파이썬을 파이썬답게</p><p><a href="http://example.com/2021/12/17/study-python-skills/">http://example.com/2021/12/17/study-python-skills/</a></p></div><div class="licensing-meta level is-mobile"><div class="level-left"><div class="level-item is-narrow"><div><h6>Author</h6><p>jongmin Lee</p></div></div><div class="level-item is-narrow"><div><h6>Posted on</h6><p>2021-12-17</p></div></div><div class="level-item is-narrow"><div><h6>Updated on</h6><p>2021-12-17</p></div></div><div class="level-item is-narrow"><div><h6>Licensed under</h6><p><a class="icons" rel="noopener" target="_blank" title="Creative Commons" href="https://creativecommons.org/"><i class="icon fab fa-creative-commons"></i></a><a class="icons" rel="noopener" target="_blank" title="Attribution" href="https://creativecommons.org/licenses/by/4.0/"><i class="icon fab fa-creative-commons-by"></i></a><a class="icons" rel="noopener" target="_blank" title="Noncommercial" href="https://creativecommons.org/licenses/by-nc/4.0/"><i class="icon fab fa-creative-commons-nc"></i></a></p></div></div></div></div></div><div class="article-tags is-size-7 mb-4"><span class="mr-2">#</span><a class="link-muted mr-2" rel="tag" href="/tags/%EC%9E%90%EB%A3%8C%EA%B5%AC%EC%A1%B0/">자료구조</a><a class="link-muted mr-2" rel="tag" href="/tags/%EC%95%8C%EA%B3%A0%EB%A6%AC%EC%A6%98/">알고리즘</a><a class="link-muted mr-2" rel="tag" href="/tags/%ED%8C%8C%EC%9D%B4%EC%8D%AC/">파이썬</a></div><!--!--></article></div><!--!--><nav class="post-navigation mt-4 level is-mobile"><div class="level-end"><a class="article-nav-next level level-item link-muted" href="/2021/12/06/database/"><span class="level-item">데이터베이스 인덱스</span><i class="level-item fas fa-chevron-right"></i></a></div></nav><div class="card"><div class="card-content"><h3 class="title is-5">Comments</h3><div id="comment-container"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1.7.2/dist/gitalk.css"><script src="https://cdn.jsdelivr.net/npm/gitalk@1.7.2/dist/gitalk.min.js"></script><script>var gitalk = new Gitalk({
+            id: "6b54df9eb08338de42e27bee767c3ae1",
             repo: "jongminzzang97.github.io",
             owner: "jongminzzang97",
             clientID: "cb13f0a68ea7ce639f71",
